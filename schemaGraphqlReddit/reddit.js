@@ -390,6 +390,26 @@ var redditType = new _graphql.GraphQLObjectType({
         return (0, _reddit.getSubreddit)(name);
       }
     },
+    link: {
+      type: subredditType,
+      args: {
+        name: {
+          description: 'name of the subreddit',
+          type: new _graphql.GraphQLNonNull(_graphql.GraphQLString)
+        },
+        id: {
+          description: 'name of the subreddit',
+          type: new _graphql.GraphQLNonNull(_graphql.GraphQLString)
+        }
+      },
+      resolve: function resolve(root, _args) {
+        var subredditName = _args.name;
+        var linkId = _args.id;
+        return (0, _reddit.getComments)(subredditName, linkId).then(function (data) {
+          return data[0].data.children[0];
+        });
+      }
+    },
     user: {
       type: userType,
       args: {
