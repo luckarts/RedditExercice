@@ -1,6 +1,16 @@
 import Link from 'next/link';
 
-function Article({ post }) {
+function ListArticle({ post }) {
+  function DateISOString(date) {
+    const today = new Date();
+    const dateHours = today.getHours();
+    const dateToday = today.getDate();
+    let datePost = new Date(date);
+    const dateArray = datePost.toUTCString().split(' ');
+    if (datePost.getDate() === dateToday) {
+      return dateHours - datePost.getHours() + 'h';
+    } else return dateArray[1] + ' ' + dateArray[2] + ' ' + dateArray[3];
+  }
   return (
     <div className="w-2/3 m-auto  px-5 my-3 py-3 bg-white rounded-lg border border-gray-300">
       <div className="mt-2 mb-5">
@@ -10,7 +20,7 @@ function Article({ post }) {
       <div>
         <div className="w-full mt-5 " href="#">
           <h1 className="inline-block text-gray-700 font-bold">{post.author && post.author.username}</h1>
-          <span className="inline-block  mx-6 font-light text-gray-600">{post.createdISO}</span>
+          <span className="inline-block  mx-6 font-light text-gray-600">{DateISOString(post.createdISO)}</span>
           {post.score && (
             <div className="inline-block ">
               <svg
@@ -40,4 +50,4 @@ function Article({ post }) {
   );
 }
 
-export default Article;
+export default ListArticle;
