@@ -15,7 +15,7 @@ const Nav = () => {
           </svg>
           <span className="font-semibold text-xl tracking-tight">Reddit Exercice</span>
         </div>
-        <div className=" relative mx-auto text-gray-600">
+        <div className=" relative flex">
           <FormSearch className="w-full text-sm shadow-md border-2 border-gray-300 bg-white h-10 px-6  pr-16 rounded-full  focus:outline-none" />
         </div>
       </div>
