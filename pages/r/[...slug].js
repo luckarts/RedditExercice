@@ -17,10 +17,24 @@ export async function getServerSideProps(context) {
     query: QueryObjectType
   });
 
-  let query = `{ link(name:  "home", id: "hrpcjt"){
-  title
-
-    }}`;
+  let query = `{ link(name:  "home", id: "hrpcjt")
+	{
+			title
+			text
+			comments(limit :3) {
+			body
+			author {
+				username
+				}
+			replies(depth: 5)  {
+				body
+				author {
+					username
+				}
+			}
+		}
+	}
+}`;
 
   const res = await graphql(schema, query);
 

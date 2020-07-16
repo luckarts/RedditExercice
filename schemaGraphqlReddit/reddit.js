@@ -202,7 +202,9 @@ var commentType = new _graphql.GraphQLObjectType({
           var linkId = comment.data.link_id.split('_')[1];
           args.comment = comment.data.id;
           return (0, _reddit.getComments)(comment.data.subreddit, linkId, args).then(function (data) {
-            return data[1].data.children;
+            if (data[1].data.children[0].data.replies.data) {
+              return data[1].data.children[0].data.replies.data.children;
+            }
           });
         }
       }
@@ -391,7 +393,7 @@ var redditType = new _graphql.GraphQLObjectType({
       }
     },
     link: {
-      type: subredditType,
+      type: linkType,
       args: {
         name: {
           description: 'name of the subreddit',
