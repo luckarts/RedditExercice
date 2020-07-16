@@ -5,7 +5,7 @@ function Topic({ topic }) {
   console.log(topic);
 
   return (
-    <div className="flex flex-col bg-gray-100">
+    <div className="flex flex-col mt-12">
       <Article topic={topic.data.link} />
     </div>
   );

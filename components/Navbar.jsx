@@ -1,7 +1,7 @@
 import FormSearch from './FormSearch';
 const Nav = () => {
   return (
-    <nav className="bg-teal-500 p-3 mb-12 ">
+    <nav className="bg-teal-500 p-3">
       <div className="w-2/3 m-auto flex items-center justify-between flex-wrap ">
         <div className="flex items-center flex-shrink-0 text-white mr-6">
           <svg

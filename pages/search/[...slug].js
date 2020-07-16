@@ -2,16 +2,21 @@ import { GraphQLSchema, graphql } from 'graphql';
 import { QueryObjectType } from '../../schemaGraphqlReddit/reddit';
 import ListArticle from '../../components/ListArticle';
 import Navbar from '../../components/Navbar';
+import Error from 'next/error';
 function Search({ posts, slug, defaultFilter }) {
   console.log(posts);
   const filter = slug.length === 2 ? slug[1] : defaultFilter;
-  return (
-    <div className="flex flex-col">
-      {posts.data.subreddit[filter].map((post, index) => (
-        <ListArticle key={index} post={post} />
-      ))}
-    </div>
-  );
+  if (posts.data.subreddit) {
+    return (
+      <div className="flex flex-col mt-12 ">
+        {posts.data.subreddit[filter].map((post, index) => (
+          <ListArticle key={index} post={post} />
+        ))}
+      </div>
+    );
+  } else {
+    return <Error statusCode={404}></Error>;
+  }
 }
 
 export async function getServerSideProps(context) {
