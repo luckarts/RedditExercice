@@ -1,0 +1,28 @@
+{
+  "name": "reddit",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint '**/*.js'",
+    "lint:fix": "prettier-eslint --write '**/*.js'"
+  },
+  "dependencies": {
+    "graphql": "^15.3.0",
+    "graphqlhub-schemas": "^0.1.0",
+    "micro": "^9.3.4",
+    "next": "9.4.4",
+    "node-fetch": "^2.6.0",
+    "react": "16.13.1",
+    "react-dom": "16.13.1"
+  },
+  "devDependencies": {
+    "prettier-eslint": "^11.0.0",
+    "prettier-eslint-cli": "^5.0.0",
+    "@fullhuman/postcss-purgecss": "^2.3.0",
+    "autoprefixer": "^9.8.5",
+    "tailwindcss": "^1.4.6"
+  }
+}
