@@ -258,6 +258,13 @@ var linkType = new _graphql.GraphQLObjectType({
         return link.data.num_comments;
       }
     },
+    permalink: {
+      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      description: 'URL of the link',
+      resolve: function resolve(link) {
+        return link.data.permalink;
+      }
+    },
     url: {
       type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
       description: 'URL of the link',

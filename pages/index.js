@@ -23,6 +23,7 @@ export async function getStaticProps() {
       score
       numComments
       createdISO
+      permalink
       author {
         username
       }
