@@ -1,6 +1,5 @@
-import { Reddit } from 'graphqlhub-schemas';
 import { GraphQLSchema, graphql } from 'graphql';
-
+import { QueryObjectType } from '../schemaGraphqlReddit/reddit';
 import ListArticle from '../components/ListArticle';
 function Home({ posts }) {
   console.log(posts);
@@ -14,13 +13,19 @@ function Home({ posts }) {
 }
 export async function getStaticProps() {
   let schema = new GraphQLSchema({
-    query: Reddit.QueryObjectType
+    query: QueryObjectType
   });
 
   let query = `{ subreddit(name: "home"){
     topListings(limit: 5) {
       title
-
+      text
+      score
+      numComments
+      createdISO
+      author {
+        username
+      }
     }}}`;
 
   const res = await graphql(schema, query);
