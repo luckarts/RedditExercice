@@ -1,7 +1,7 @@
 import { GraphQLSchema, graphql } from 'graphql';
 import { QueryObjectType } from '../../schemaGraphqlReddit/reddit';
 import ListArticle from '../../components/ListArticle';
-
+import Navbar from '../../components/Navbar';
 function Search({ posts, slug, defaultFilter }) {
   console.log(posts);
   const filter = slug.length === 2 ? slug[1] : defaultFilter;
