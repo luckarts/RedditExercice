@@ -3,7 +3,13 @@ import { useRouter } from 'next/router';
 const FormSearch = ({ className }) => {
   const router = useRouter();
   const { slug } = router.query;
-  const [state, setState] = useState('default');
+  const [state, setState] = useState('');
+
+  useEffect(() => {
+    if (slug) {
+      setState(slug[0]);
+    }
+  }, [slug, setState]);
 
   function handleKeyEnter(e) {
     if (e.key === 'Enter') {
@@ -17,7 +23,9 @@ const FormSearch = ({ className }) => {
     setState(e.target.value);
   }
   function filter(filter) {
-    console.log(filter);
+    if (state !== '') {
+      router.push(`/search/[[...slug]]`, `/search/${state}/${filter}`, { shallow: true });
+    }
   }
   return (
     <div className="flex">

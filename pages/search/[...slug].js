@@ -7,8 +7,7 @@ function Search({ posts, slug, defaultFilter }) {
   const filter = slug.length === 2 ? slug[1] : defaultFilter;
   return (
     <div className="flex flex-col">
-      {' '}
-      {posts.data.subreddit.topListings.map((post, index) => (
+      {posts.data.subreddit[filter].map((post, index) => (
         <ListArticle key={index} post={post} />
       ))}
     </div>
