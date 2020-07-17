@@ -1,8 +1,7 @@
 const extend = require('./typographieTailwind.js');
-const { theme } = require('tailwindcss/stubs/defaultConfig.stub');
 module.exports = {
   target: 'ie11',
-  purge: ['./src/**/*.html', './src/**/*.jsx'],
+  purge: false,
   options: {
     prefix: '',
     important: false,

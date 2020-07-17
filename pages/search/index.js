@@ -64,7 +64,7 @@ export async function getServerSideProps(context) {
   let queryGraphQL = `{
 
     subreddit(name:  "${query.name}"){
-      ${query.filter ? query.filter : defaultFilter}(limit: 5 ,count: 5 ,after : "${query.after}" ,before : "${
+      ${query.filter ? query.filter : defaultFilter}(limit: 10 ,count: 5 ,after : "${query.after}" ,before : "${
     query.before
   }") {
         after

@@ -1,7 +1,7 @@
 /* purgecss start ignore */
 @tailwind base;
 @tailwind components;
+@import './nprogress.css';
 /* purgecss end ignore */
 
 @tailwind utilities;
-@import './nprogress.css';
