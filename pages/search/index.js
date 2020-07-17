@@ -28,16 +28,25 @@ function Search({ posts, defaultFilter }) {
       }
     });
   }
+  const styleButton = 'float-right relative bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded';
   if (posts.data && posts.data.subreddit[filter]) {
     return (
-      <div className="flex flex-col mt-12 ">
+      <div className="flex flex-col mt-12 mb-8">
         {posts.data.subreddit[filter][0].links.map((post, index) => (
           <ListArticle key={index} post={post} />
         ))}
-        {pageCount !== 0 && posts.data.subreddit[filter][0].before && (
-          <button onClick={() => nextPage('before')}>Previous Page</button>
-        )}
-        {posts.data.subreddit[filter][0].after && <button onClick={() => nextPage('after')}>Next Page</button>}
+        <div className="w-2/3 m-auto relative">
+          {pageCount !== 0 && posts.data.subreddit[filter][0].before && (
+            <button onClick={() => nextPage('before')} className={styleButton}>
+              Previous Page
+            </button>
+          )}
+          {posts.data.subreddit[filter][0].after && (
+            <button onClick={() => nextPage('after')} className={styleButton}>
+              Next Page
+            </button>
+          )}
+        </div>
       </div>
     );
   } else {
