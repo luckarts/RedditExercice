@@ -29,7 +29,7 @@ function Search({ posts, defaultFilter }) {
     });
   }
   const styleButton = 'float-right relative bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded';
-  if (posts.data && posts.data.subreddit[filter]) {
+  if (posts.data && posts.data.subreddit) {
     return (
       <div className="flex flex-col mt-12 mb-8">
         {posts.data.subreddit[filter][0].links.map((post, index) => (

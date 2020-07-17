@@ -24,12 +24,12 @@ function ListArticle({ post }) {
             <div className="w-full mt-5 " href="#">
               <h1 className="inline-block text-gray-700 font-bold">{post.author && post.author.username}</h1>
               <span className="inline-block  mx-6 font-light text-gray-600">{DateISOString(post.createdISO)}</span>
-              {post.score && (
+              {post.score ? (
                 <div className="inline-block ">
                   <svg
-                    className="inline-block"
-                    width="20"
-                    height="19"
+                    className="inline-block opacity-75 mb-1"
+                    width="15"
+                    height="14"
                     viewBox="0 0 20 19"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -41,6 +41,8 @@ function ListArticle({ post }) {
                   </svg>
                   <span className="ml-2 ">{post.score}</span>
                 </div>
+              ) : (
+                ''
               )}
               {post.numComments !== 0 && (
                 <div className="float-right">
