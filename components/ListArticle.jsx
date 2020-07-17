@@ -12,7 +12,7 @@ function ListArticle({ post }) {
     } else return dateArray[1] + ' ' + dateArray[2] + ' ' + dateArray[3];
   }
   return (
-    <Link href={post.permalink}>
+    <Link href={post.permalink} shallow>
       <div className="w-2/3 m-auto  px-5 my-3 py-3 bg-white rounded-lg border border-gray-300">
         <a className="cursor-pointer ">
           <div className="mt-2 mb-5">

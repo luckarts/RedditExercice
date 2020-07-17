@@ -152,7 +152,7 @@ var createListingField = function createListingField(description, listingType) {
   return {
     description: description,
     args: args,
-    type: new _graphql.GraphQLNonNull(new _graphql.GraphQLList(linkType)),
+    type: new _graphql.GraphQLNonNull(new _graphql.GraphQLList(paginationType)),
     resolve: function resolve(subreddit, args) {
       var requestOptions = args;
       requestOptions.t = args.timeInterval;
@@ -160,7 +160,7 @@ var createListingField = function createListingField(description, listingType) {
       return (0, _reddit.getSubredditListings)(subreddit.data.display_name, listingType, requestOptions).then(function (
         data
       ) {
-        return data.data.children;
+        return [data.data];
       });
     }
   };
@@ -211,7 +211,6 @@ var commentType = new _graphql.GraphQLObjectType({
     };
   }
 });
-
 var linkType = new _graphql.GraphQLObjectType({
   name: 'RedditLink',
   description: 'A link posted to a subreddit',
@@ -219,8 +218,8 @@ var linkType = new _graphql.GraphQLObjectType({
     createdISO: {
       type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
       description: 'Creation date of the subreddit, in ISO8601',
-      resolve: function resolve(subreddit) {
-        var date = new Date(subreddit.data.created_utc * 1000);
+      resolve: function resolve(link) {
+        var date = new Date(link.data.created_utc * 1000);
         return date.toISOString();
       }
     },
@@ -246,6 +245,7 @@ var linkType = new _graphql.GraphQLObjectType({
         return link.kind + '_' + link.data.id;
       }
     },
+
     score: {
       type: new _graphql.GraphQLNonNull(_graphql.GraphQLInt),
       description: 'Score of the link',
@@ -281,6 +281,7 @@ var linkType = new _graphql.GraphQLObjectType({
         return (0, _reddit.getUser)(link.data.author);
       }
     },
+
     comments: {
       type: new _graphql.GraphQLNonNull(new _graphql.GraphQLList(commentType)),
       description: 'Comments on the link',
@@ -303,6 +304,39 @@ var linkType = new _graphql.GraphQLObjectType({
   }
 });
 
+var paginationType = new _graphql.GraphQLObjectType({
+  name: 'RedditSearch',
+  description: 'A link posted to a subreddit',
+  fields: {
+    after: {
+      description: 'Title of the link',
+      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      resolve: function resolve(link) {
+        if (link.after) {
+          return link.after;
+        } else return '';
+      }
+    },
+    before: {
+      description: 'Title of the link',
+      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      resolve: function resolve(link) {
+        if (link.before) {
+          return link.before;
+        } else return '';
+      }
+    },
+    links: {
+      description: 'Author of the comment',
+      type: new _graphql.GraphQLNonNull(new _graphql.GraphQLList(linkType)),
+
+      resolve: function resolve(link) {
+        return link.children;
+      }
+    }
+  }
+});
+
 var subredditType = new _graphql.GraphQLObjectType({
   name: 'RedditSubreddit',
   description: 'Information about and listings in a subreddit',
@@ -314,6 +348,7 @@ var subredditType = new _graphql.GraphQLObjectType({
         return subreddit.data.display_name;
       }
     },
+
     fullnameId: {
       type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
       description: 'The Reddit API fullname of the subreddit',
@@ -356,6 +391,7 @@ var subredditType = new _graphql.GraphQLObjectType({
         return subreddit.data.created_utc;
       }
     },
+
     createdISO: {
       type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
       description: 'Creation date of the subreddit, in ISO8601',
@@ -364,6 +400,7 @@ var subredditType = new _graphql.GraphQLObjectType({
         return date.toISOString();
       }
     },
+
     hotListings: createListingField('Hot/"Front Page" listings of the subreddit', 'hot'),
     newListings: createListingField('Newest listings of the subreddit', 'new'),
     risingListings: createListingField('Rising listings of the subreddit', 'rising'),
@@ -392,6 +429,7 @@ var redditType = new _graphql.GraphQLObjectType({
         return (0, _reddit.getSubreddit)(name);
       }
     },
+
     link: {
       type: linkType,
       args: {

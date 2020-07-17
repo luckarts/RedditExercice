@@ -6,8 +6,8 @@ const FormSearch = ({ className }) => {
   const [state, setState] = useState('');
 
   useEffect(() => {
-    if (slug) {
-      setState(slug[0]);
+    if (router.query.name) {
+      setState(router.query.name);
     }
   }, [slug, setState]);
 
@@ -15,16 +15,17 @@ const FormSearch = ({ className }) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       if (state !== '') {
-        router.push(`/search/[name]`, `/search/${state}`, { shallow: true });
+        router.push({ pathname: `/search`, query: { name: state } });
       }
     }
   }
+
   function handleChange(e) {
     setState(e.target.value);
   }
   function filter(filter) {
     if (state !== '') {
-      router.push(`/search/[[...slug]]`, `/search/${state}/${filter}`, { shallow: true });
+      router.push({ pathname: `/search`, query: { name: state, filter: filter } });
     }
   }
   return (
@@ -32,7 +33,7 @@ const FormSearch = ({ className }) => {
       <form className="w-full " onKeyDown={handleKeyEnter}>
         <input onChange={handleChange} className={className} type="text" placeholder="Search" />
       </form>
-      {router.pathname !== '/' && (
+      {router.pathname !== '/' && router.query.name && (
         <div className="ml-4 flex">
           <button onClick={() => filter('newListings')} className="focus:outline-none">
             <svg className="fill-current" width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">

@@ -13,11 +13,12 @@ function Topic({ topic }) {
 
 export async function getServerSideProps(context) {
   const { slug } = context.params;
+
   let schema = new GraphQLSchema({
     query: QueryObjectType
   });
 
-  let query = `{ link(name:  "home", id: "hrpcjt")
+  let query = `{ link(name:  "${slug[0]}", id: "${slug[2]}")
 	{
 			title
 			text
