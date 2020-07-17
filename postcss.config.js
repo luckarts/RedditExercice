@@ -1,14 +1,7 @@
+const tailwindcss = require('tailwindcss');
+const join = require('path').join;
+const tailwindJS = 'tailwind.config.js';
+
 module.exports = {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
-      ...(process.env.NODE_ENV === 'production'
-        ? {
-            '@fullhuman/postcss-purgecss': {
-              content: ['./components/**/*.js', './pages/**/*.js'],
-              defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || []
-            }
-          }
-        : {})
-    }
-  };
+  plugins: [tailwindcss(tailwindJS), require('autoprefixer')]
+};

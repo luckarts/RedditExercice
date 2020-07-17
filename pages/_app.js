@@ -1,4 +1,4 @@
-import '../styles.css';
+import '../styles/index.css';
 import Navbar from '../components/Navbar';
 import { useRouter } from 'next/router';
 function App({ Component, pageProps }) {

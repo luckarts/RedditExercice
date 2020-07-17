@@ -13,7 +13,7 @@ function ListArticle({ post }) {
   }
   return (
     <Link href={post.permalink} shallow>
-      <div className="w-2/3 m-auto  px-5 my-3 py-3 bg-white rounded-lg border border-gray-300">
+      <div className="w-2/3 m-auto  px-5 my-3 py-3 bg-white overflow-hidden rounded-lg border border-gray-300 sm:w-90 ">
         <a className="cursor-pointer ">
           <div className="mt-2 mb-5">
             <h2 className="text-1xl text-gray-700 font-bold ">{post.title}</h2>

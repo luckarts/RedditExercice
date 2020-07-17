@@ -24,7 +24,7 @@ const FormSearch = ({ className }) => {
     setState(e.target.value);
   }
   function filter(filter) {
-    console.log(filter, state);
+
     if (state !== '') {
       router.push({ pathname: `/search`, query: { name: state, filter: filter } });
     }

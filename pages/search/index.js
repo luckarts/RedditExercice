@@ -15,7 +15,6 @@ function Search({ posts, defaultFilter }) {
       setFilter(router.query.filter);
     }
   }, [router, setFilter]);
-  console.log(posts);
 
   function nextPage(pagination) {
     setPageCount(pageCount + 1);
