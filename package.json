@@ -2,6 +2,8 @@
   "name": "reddit",
   "version": "0.1.0",
   "private": true,
+  "author": "Luc Bachelerie",
+  "homepage": "https://github.com/luckarts/RedditExercice",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -12,7 +14,6 @@
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
     "graphql": "^15.3.0",
-    "graphqlhub-schemas": "^0.1.0",
     "micro": "^9.3.4",
     "next": "9.4.4",
     "next-pwa": "^3.0.3",
