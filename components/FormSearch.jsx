@@ -24,7 +24,6 @@ const FormSearch = ({ className }) => {
     setState(e.target.value);
   }
   function filter(filter) {
-
     if (state !== '') {
       router.push({ pathname: `/search`, query: { name: state, filter: filter } });
     }
@@ -32,7 +31,7 @@ const FormSearch = ({ className }) => {
   return (
     <div className="flex">
       <form className="w-full " onKeyDown={handleKeyEnter}>
-        <input onChange={handleChange} className={className} type="text" placeholder="Search" />
+        <input onChange={handleChange} className={className} type="text" placeholder="Search a topic" />
       </form>
       {router.pathname !== '/' && router.query.name && (
         <div className="ml-4 flex">

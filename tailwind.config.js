@@ -12,8 +12,12 @@ module.exports = {
       xs: { min: 'Opx', max: '500px' },
       sm: { min: '0px', max: '768px' },
       md: '768px',
-      lg: '1024px',
-      xl: '1280px'
+      'scr-12': '1024px',
+      'scr-13': '1280px',
+      'scr-15': '1366px',
+      'scr-19': '1440px',
+      'scr-20': '1600',
+      'scr-22': '1680'
     },
     fontFamily: {
       title: ['"Cormorant Garamond"', 'serif'],

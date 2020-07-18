@@ -9,7 +9,7 @@ function Search({ posts, defaultFilter }) {
   const router = useRouter();
   const [filter, setFilter] = useState(defaultFilter);
   const [pageCount, setPageCount] = useState(0);
-  console.log(posts);
+
   useEffect(() => {
     if (router.query.filter) {
       setFilter(router.query.filter);

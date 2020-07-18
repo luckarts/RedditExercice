@@ -204,7 +204,7 @@ var commentType = new _graphql.GraphQLObjectType({
           return (0, _reddit.getComments)(comment.data.subreddit, linkId, args).then(function (data) {
             if (data[1].data.children[0].data.replies.data) {
               return data[1].data.children[0].data.replies.data.children;
-            }
+            } else return [{}];
           });
         }
       }
