@@ -1,6 +1,6 @@
 ## Reddit network
 
-Project Reddit network of communities with [Next.js](https://nextjs.org/) ['Graphql'](https://graphql.org/) ['redditAPI'](https://www.reddit.com/dev/api/), css framework [`Tailwind`](https://tailwindcss.com/).
+Project Reddit network of communities with [Next.js](https://nextjs.org/) [Graphql](https://graphql.org/) [RedditAPI](https://www.reddit.com/dev/api/), css framework [Tailwind](https://tailwindcss.com/).
 
 <p align="center">
   <img src="https://bachelart.fr/img/reddit.jpg" alt="Size Limit CLI" width="738">
