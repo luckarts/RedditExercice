@@ -204,7 +204,7 @@ var commentType = new _graphql.GraphQLObjectType({
           return (0, _reddit.getComments)(comment.data.subreddit, linkId, args).then(function (data) {
             if (data[1].data.children[0].data.replies.data) {
               return data[1].data.children[0].data.replies.data.children;
-            }
+            } else return [{}];
           });
         }
       }
@@ -403,6 +403,7 @@ var subredditType = new _graphql.GraphQLObjectType({
 
     hotListings: createListingField('Hot/"Front Page" listings of the subreddit', 'hot'),
     newListings: createListingField('Newest listings of the subreddit', 'new'),
+    bestListings: createListingField('best listings of the subreddit', 'best'),
     risingListings: createListingField('Rising listings of the subreddit', 'rising'),
     controversialListings: createListingField('Controversial listings of the subreddit', 'controversial', {
       hasTimeInterval: true

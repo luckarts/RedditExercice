@@ -63,7 +63,11 @@
 .nprogress-custom-parent #nprogress .bar {
   position: absolute;
 }
-
+@media screen and (max-width: 500px) {
+  #nprogress .spinner {
+    top: 18%;
+  }
+}
 @-webkit-keyframes nprogress-spinner {
   0% {
     -webkit-transform: rotate(0deg);
@@ -80,4 +84,5 @@
     transform: rotate(360deg);
   }
 }
+
 /* purgecss end ignore */
