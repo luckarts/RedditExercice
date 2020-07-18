@@ -9,7 +9,7 @@ function Search({ posts, defaultFilter }) {
   const router = useRouter();
   const [filter, setFilter] = useState(defaultFilter);
   const [pageCount, setPageCount] = useState(0);
-
+  console.log(posts);
   useEffect(() => {
     if (router.query.filter) {
       setFilter(router.query.filter);
@@ -31,9 +31,7 @@ function Search({ posts, defaultFilter }) {
   if (posts.data && posts.data.subreddit && posts.data.subreddit[filter]) {
     return (
       <div className="flex flex-col mt-12 mb-8">
-        {posts.data.subreddit[filter][0].links.map((post, index) => (
-          <ListArticle key={index} post={post} />
-        ))}
+        {posts.data.subreddit[filter][0].links.map((post, index) => post && <ListArticle key={index} post={post} />)}
         <div className="w-2/3 m-auto relative">
           {pageCount !== 0 && posts.data.subreddit[filter][0].before && (
             <button onClick={() => nextPage('before')} className={styleButton}>
@@ -56,7 +54,7 @@ function Search({ posts, defaultFilter }) {
 export async function getServerSideProps(context) {
   const { query } = context;
 
-  const defaultFilter = 'topListings';
+  const defaultFilter = 'bestListings';
   let schema = new GraphQLSchema({
     query: QueryObjectType
   });
@@ -64,7 +62,7 @@ export async function getServerSideProps(context) {
   let queryGraphQL = `{
 
     subreddit(name:  "${query.name}"){
-      ${query.filter ? query.filter : defaultFilter}(limit: 10 ,count: 5 ,after : "${query.after}" ,before : "${
+      ${query.filter ? query.filter : defaultFilter}(limit: 100 ,count: 100 ,after : "${query.after}" ,before : "${
     query.before
   }") {
         after
@@ -74,7 +72,6 @@ export async function getServerSideProps(context) {
           text
           score
           numComments
-
           createdISO
           permalink
           author {

@@ -7,12 +7,15 @@ function ListArticle({ post }) {
     const dateToday = today.getDate();
     let datePost = new Date(date);
     const dateArray = datePost.toUTCString().split(' ');
-    if (datePost.getDate() === dateToday) {
-      return dateHours - datePost.getHours() + 'h';
+    if (datePost.getHours() === dateHours) {
+      return today.getMinutes() - datePost.getMinutes() + ' minutes ago';
+    } else if (datePost.getDate() === dateToday) {
+      const result = dateHours - datePost.getHours();
+      return result + (result > 2 ? ' hours' : 'hour') + ' ago';
     } else return dateArray[1] + ' ' + dateArray[2] + ' ' + dateArray[3];
   }
   return (
-    <Link href={post.permalink} shallow>
+    <Link href={post.permalink ? post.permalink : '#'} shallow>
       <div className="w-2/3 m-auto  px-5 my-3 py-3 bg-white overflow-hidden rounded-lg border border-gray-300 sm:w-90 ">
         <a className="cursor-pointer ">
           <div className="mt-2 mb-5">
