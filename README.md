@@ -1,6 +1,25 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Reddit network
+
+Project Reddit network of communities with [Next.js](https://nextjs.org/) ['Graphql'](https://graphql.org/) ['redditAPI'](https://www.reddit.com/dev/api/), css framework [`Tailwind`](https://tailwindcss.com/).
+
+<p align="center">
+  <img src="https://bachelart.fr/img/reddit.jpg" alt="Size Limit CLI" width="738">
+</p>
 
 ## Getting Started
+
+You will create a reddit feed web app from the reddit API.
+Users must be able to search for any subreddit and get a list, limited to 100 results, of hot and
+new topics.
+For each topic will be displayed a maximum of 3 comments with a maximum of 5 replies.
+Besides this requirement, you may decide what data is relevant to display or not.
+No need to persist data in a database.
+
+## Démo
+
+visit https://reddit-exercice.vercel.app/
+
+## Run server
 
 First, run the development server:
 
@@ -10,21 +29,10 @@ npm run dev
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Next features
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Parse text
 
-## Learn More
+Lazy loading Topics
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+refactoring in typecript
