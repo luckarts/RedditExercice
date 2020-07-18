@@ -1,5 +1,5 @@
 import FormSearch from '../components/FormSearch';
-function Home({ posts }) {
+function Home() {
   return (
     <div className="flex flex-col justify-center items-center pt-40">
       <span className=" text-5xl text-center text-gray-800 tracking-tight mb-6">Reddit Network</span>

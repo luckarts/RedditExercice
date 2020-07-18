@@ -1,7 +1,6 @@
 import Link from 'next/link';
 
 function Article({ topic }) {
-  console.log(topic.comments);
   const cardStyle = 'bg-white rounded-lg border overflow-hidden border-gray-300 ';
   return (
     <div className={cardStyle + ' max-w-lg m-auto my-2 sm:w-90'}>
