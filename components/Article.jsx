@@ -7,6 +7,7 @@ function Article({ topic }) {
     <div className={cardStyle + ' max-w-lg m-auto my-2 sm:w-90'}>
       <div className="px-6 py-4">
         <div className="font-bold text-xl mb-2">{topic.title && topic.title}</div>
+
         <ParserText className="text-grey-darker text-base link" text={topic.selftext_html} />
       </div>
 
@@ -17,7 +18,6 @@ function Article({ topic }) {
               <div key={index} className={cardStyle + ' m-4 w-auto'}>
                 <div className="px-6 py-4">
                   <div className="font-bold text-xl m-2 sm:w-full">{comment.author && comment.author.username}</div>
-
                   <ParserText className="text-gray-700 text-base link" text={comment.body_html} />
                 </div>
                 <div className="ml-12 mr-4 my-4">

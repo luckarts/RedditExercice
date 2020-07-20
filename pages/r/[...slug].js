@@ -18,8 +18,21 @@ export async function getServerSideProps(context) {
 
   let query = `{ link(name:  "${slug[0]}", id: "${slug[2]}")
 	{
-			title
-			selftext_html
+      title
+
+      selftext_html
+      preview {
+        source {
+          url
+          width
+          height
+        }
+        resolutions {
+          url
+          width
+          height
+        }
+      }
 			comments(limit :3) {
         body_html
 			author {
