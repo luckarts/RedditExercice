@@ -69,7 +69,7 @@ export async function getServerSideProps(context) {
         before
         links {
           title
-
+          selftext
           score
           numComments
           createdISO

@@ -240,6 +240,15 @@ var linkType = new _graphql.GraphQLObjectType({
         } else return '';
       }
     },
+    selftext: {
+      description: 'text detail of post',
+      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      resolve: function resolve(link) {
+        if (link.data.selftext_html) {
+          return link.data.selftext;
+        } else return '';
+      }
+    },
 
     fullnameId: {
       type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),

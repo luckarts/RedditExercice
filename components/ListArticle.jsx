@@ -15,13 +15,16 @@ function ListArticle({ post }) {
       return result + (result > 2 ? ' hours' : 'hour') + ' ago';
     } else return dateArray[1] + ' ' + dateArray[2] + ' ' + dateArray[3];
   }
-
+  function truncate(str, no_words) {
+    return str.split(' ').splice(0, no_words).join(' ');
+  }
   return (
     <Link href={post.permalink ? post.permalink : '#'} shallow>
       <div className="w-2/3 m-auto  px-5 my-3 py-3 bg-white overflow-hidden rounded-lg border border-gray-300 sm:w-90 ">
         <a className="cursor-pointer ">
           <div className="mt-2 mb-5">
             <h2 className="text-1xl text-gray-700 font-bold ">{post.title}</h2>
+            <p className="mt-2 text-gray-600">{post.selftext && truncate(post.selftext, 10) + '...'}</p>
           </div>
           <div>
             <div className="w-full mt-5 md:flex" href="#">
