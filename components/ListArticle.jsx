@@ -1,6 +1,5 @@
 import Link from 'next/link';
 
-import ReactHtmlParser from 'react-html-parser';
 function ListArticle({ post }) {
   function DateISOString(date) {
     const today = new Date();
