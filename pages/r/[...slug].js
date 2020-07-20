@@ -2,6 +2,7 @@ import { GraphQLSchema, graphql } from 'graphql';
 import { QueryObjectType } from '../../schemaGraphqlReddit/reddit';
 import Article from '../../components/Article';
 function Topic({ topic }) {
+  console.log(topic);
   return (
     <div className="flex flex-col mt-12">
       <Article topic={topic.data.link} />
@@ -19,14 +20,14 @@ export async function getServerSideProps(context) {
   let query = `{ link(name:  "${slug[0]}", id: "${slug[2]}")
 	{
 			title
-			text
+			selftext_html
 			comments(limit :3) {
-			body
+        body_html
 			author {
 				username
 				}
 			replies(depth: 5)  {
-				body
+				body_html
 				author {
 					username
 				}

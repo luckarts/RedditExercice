@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import ReactHtmlParser from 'react-html-parser';
 function ListArticle({ post }) {
   function DateISOString(date) {
     const today = new Date();
@@ -14,19 +15,18 @@ function ListArticle({ post }) {
       return result + (result > 2 ? ' hours' : 'hour') + ' ago';
     } else return dateArray[1] + ' ' + dateArray[2] + ' ' + dateArray[3];
   }
+
   return (
     <Link href={post.permalink ? post.permalink : '#'} shallow>
       <div className="w-2/3 m-auto  px-5 my-3 py-3 bg-white overflow-hidden rounded-lg border border-gray-300 sm:w-90 ">
         <a className="cursor-pointer ">
           <div className="mt-2 mb-5">
             <h2 className="text-1xl text-gray-700 font-bold ">{post.title}</h2>
-
-            <p className="mt-2 text-gray-600">{post.text && post.text}</p>
           </div>
           <div>
-            <div className="w-full mt-5 " href="#">
-              <h1 className="inline-block text-gray-700 font-bold">{post.author && post.author.username}</h1>
-              <div className="relative ">
+            <div className="w-full mt-5 md:flex" href="#">
+              <h3 className="inline-block text-gray-700 font-bold">{post.author && post.author.username}</h3>
+              <div className="relative w-full">
                 <span className="inline-block  md:mx-6 sm:mr-6 font-light text-gray-600">
                   {DateISOString(post.createdISO)}
                 </span>
@@ -50,7 +50,9 @@ function ListArticle({ post }) {
                 ) : (
                   ''
                 )}
-                {post.numComments !== 0 && <span className="float-right">{post.numComments} comments</span>}
+                {post.numComments !== 0 && (
+                  <span className="float-right">{post.numComments > 3 ? 3 : post.numComments} comments</span>
+                )}
               </div>
             </div>
           </div>

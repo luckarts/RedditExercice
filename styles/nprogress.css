@@ -1,5 +1,10 @@
 /* Make clicks pass-through */
 /* purgecss start ignore */
+.link a {
+  color: #0060a8;
+  text-decoration: underline;
+}
+
 #nprogress {
   pointer-events: none;
 }

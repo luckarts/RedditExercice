@@ -178,11 +178,11 @@ var commentType = new _graphql.GraphQLObjectType({
           return (0, _reddit.getUser)(comment.data.author);
         }
       },
-      body: {
+      body_html: {
         description: 'Body of the comment',
         type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
         resolve: function resolve(comment) {
-          return comment.data.body;
+          return comment.data.body_html;
         }
       },
       replies: {
@@ -227,14 +227,17 @@ var linkType = new _graphql.GraphQLObjectType({
       description: 'Title of the link',
       type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
       resolve: function resolve(link) {
+        console.log(link);
         return link.data.title;
       }
     },
-    text: {
+    selftext_html: {
       description: 'text detail of post',
       type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
       resolve: function resolve(link) {
-        return link.data.selftext;
+        if (link.data.selftext_html) {
+          return link.data.selftext_html;
+        } else return '';
       }
     },
 
