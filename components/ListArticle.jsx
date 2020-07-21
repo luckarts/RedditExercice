@@ -18,8 +18,8 @@ function ListArticle({ post }) {
     return str.split(' ').splice(0, no_words).join(' ');
   }
   return (
-    <Link href={post.permalink ? post.permalink : '#'} shallow>
-      <div className="w-2/3 m-auto  px-5 my-3 py-3 bg-white overflow-hidden rounded-lg border border-gray-300 sm:w-90 ">
+    <div className="w-2/3 m-auto  px-5 my-3 py-3 bg-white overflow-hidden rounded-lg border border-gray-300 sm:w-90 ">
+      <Link href={post.permalink ? post.permalink : '#'} prefetch shallow>
         <a className="cursor-pointer ">
           <div className="mt-2 mb-5">
             <h2 className="text-1xl text-gray-700 font-bold ">{post.title}</h2>
@@ -59,8 +59,8 @@ function ListArticle({ post }) {
             </div>
           </div>
         </a>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 }
 
