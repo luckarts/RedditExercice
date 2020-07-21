@@ -1,16 +1,16 @@
-import Link from 'next/link';
-
 import ParserText from './ParserText';
+import YouTube from 'react-youtube';
 function Article({ topic }) {
   const cardStyle = 'bg-white rounded-lg border overflow-hidden border-gray-300 ';
+  const img = topic.img && topic.img.split('.');
+
   return (
     <div className={cardStyle + ' max-w-lg m-auto my-2 sm:w-90'}>
       <div className="px-6 py-4">
         <div className="font-bold text-xl mb-2">{topic.title && topic.title}</div>
-
+        {img[3] === 'jpg' && <img src={topic.img} alt={topic.title} />}
         <ParserText className="text-grey-darker text-base link" text={topic.selftext_html} />
       </div>
-
       {topic.comments &&
         topic.comments.map(
           (comment, index) =>

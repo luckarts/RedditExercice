@@ -165,57 +165,7 @@ var createListingField = function createListingField(description, listingType) {
     }
   };
 };
-var previewType = new _graphql.GraphQLObjectType({
-  name: 'RedditPreview',
-  description: 'A preview img  on a link',
-  fields: function fields() {
-    return {
-      source: {
-        description: 'Replies to the comment',
-        type: new _graphql.GraphQLNonNull(new _graphql.GraphQLList(resolutionType)),
-        resolve: function resolve(preview) {
-          return [preview.source];
-        }
-      },
-      resolutions: {
-        description: 'Replies to the comment',
-        type: new _graphql.GraphQLNonNull(new _graphql.GraphQLList(resolutionType)),
-        resolve: function resolve(preview) {
-          return preview.resolutions;
-        }
-      }
-    };
-  }
-});
-var resolutionType = new _graphql.GraphQLObjectType({
-  name: 'RedditResolutionPreview',
-  description: 'A preview img  on a link',
-  fields: function fields() {
-    return {
-      url: {
-        description: 'url of the preview',
-        type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
-        resolve: function resolve(comment) {
-          return comment.url;
-        }
-      },
-      width: {
-        description: 'width of the preview img',
-        type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
-        resolve: function resolve(comment) {
-          return comment.url;
-        }
-      },
-      height: {
-        description: 'width of the preview img',
-        type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
-        resolve: function resolve(comment) {
-          return comment.url;
-        }
-      }
-    };
-  }
-});
+
 var commentType = new _graphql.GraphQLObjectType({
   name: 'RedditComment',
   description: 'A comment on a link',
@@ -299,13 +249,14 @@ var linkType = new _graphql.GraphQLObjectType({
         } else return '';
       }
     },
-    preview: {
-      description: 'Replies to the comment',
-      type: new _graphql.GraphQLNonNull(new _graphql.GraphQLList(previewType)),
-      resolve: function resolve(preview) {
-        return preview.data.preview.images;
+    img: {
+      description: 'text detail of post',
+      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      resolve: function resolve(link) {
+        return link.data.url_overridden_by_dest;
       }
     },
+
     fullnameId: {
       type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
       description: 'The Reddit API fullname of the link',
