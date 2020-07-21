@@ -33,6 +33,8 @@ yarn dev
 
 Parse text
 
+Can't search Private topic
+
 Lazy loading Topics
 
 refactoring in typecript

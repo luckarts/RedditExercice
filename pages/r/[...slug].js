@@ -19,7 +19,7 @@ export async function getServerSideProps(context) {
   let query = `{ link(name:  "${slug[0]}", id: "${slug[2]}")
 	{
       title
-      img
+      url_overridden_by_dest
       selftext_html
 
 			comments(limit :3) {
@@ -27,7 +27,7 @@ export async function getServerSideProps(context) {
 			author {
 				username
 				}
-			replies(depth: 5)  {
+			replies(depth: 2,limit :6)  {
 				body_html
 				author {
 					username

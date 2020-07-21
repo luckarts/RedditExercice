@@ -1,13 +1,16 @@
 import ParserText from './ParserText';
+import YoutubePlayer from './YoutubePlayer';
+
 function Article({ topic }) {
   const cardStyle = 'bg-white rounded-lg border overflow-hidden border-gray-300 ';
-  const img = topic.img && topic.img.split('.');
+  const img = topic.url_overridden_by_dest && topic.url_overridden_by_dest.split('.');
 
   return (
     <div className={cardStyle + ' max-w-lg m-auto my-2 sm:w-90'}>
       <div className="px-6 py-4">
         <div className="font-bold text-xl mb-2">{topic.title && topic.title}</div>
         {img[3] === 'jpg' && <img src={topic.img} alt={topic.title} />}
+        {img[0] === 'https://youtu' && <YoutubePlayer url={'http://www.youtube.com/embed/' + img[1].slice(3)} />}
         <ParserText className="text-grey-darker text-base link" text={topic.selftext_html} />
       </div>
       {topic.comments &&

@@ -157,6 +157,7 @@ var createListingField = function createListingField(description, listingType) {
       var requestOptions = args;
       requestOptions.t = args.timeInterval;
       delete requestOptions.timeInterval;
+
       return (0, _reddit.getSubredditListings)(subreddit.data.display_name, listingType, requestOptions).then(function (
         data
       ) {
@@ -227,7 +228,6 @@ var linkType = new _graphql.GraphQLObjectType({
       description: 'Title of the link',
       type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
       resolve: function resolve(link) {
-        console.log(link);
         return link.data.title;
       }
     },
@@ -249,7 +249,7 @@ var linkType = new _graphql.GraphQLObjectType({
         } else return '';
       }
     },
-    img: {
+    url_overridden_by_dest: {
       description: 'text detail of post',
       type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
       resolve: function resolve(link) {

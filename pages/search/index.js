@@ -22,24 +22,25 @@ function Search({ posts, defaultFilter }) {
       pathname: '/search',
       query: {
         name: router.query.name,
-        filter: router.query.filter,
+        filter: filter,
         after: posts.data.subreddit[filter][0][pagination]
       }
     });
+    window.scrollTo(0, 0);
   }
-  const styleButton = 'float-right relative bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded';
+  const styleButton = 'relative bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded';
   if (posts.data && posts.data.subreddit && posts.data.subreddit[filter]) {
     return (
       <div className="flex flex-col mt-12 mb-8">
         {posts.data.subreddit[filter][0].links.map((post, index) => post && <ListArticle key={index} post={post} />)}
-        <div className="w-2/3 m-auto relative">
+        <div className="w-2/3 m-auto relative sm:w-90">
           {pageCount !== 0 && posts.data.subreddit[filter][0].before && (
-            <button onClick={() => nextPage('before')} className={styleButton}>
+            <button onClick={() => nextPage('before')} className={`${styleButton} float-left`}>
               Previous Page
             </button>
           )}
           {posts.data.subreddit[filter][0].after && (
-            <button onClick={() => nextPage('after')} className={styleButton}>
+            <button onClick={() => nextPage('after')} className={`${styleButton} float-right`}>
               Next Page
             </button>
           )}
