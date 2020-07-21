@@ -33,14 +33,14 @@ function Search({ posts, defaultFilter }) {
       <div className="flex flex-col mt-12 mb-8">
         {posts.data.subreddit[filter][0].links.map((post, index) => post && <ListArticle key={index} post={post} />)}
         <div className="w-2/3 m-auto relative">
-          {pageCount !== 0 && posts.data.subreddit[filter][0].before && (
-            <button onClick={() => nextPage('before')} className={styleButton}>
-              Previous Page
-            </button>
-          )}
           {posts.data.subreddit[filter][0].after && (
             <button onClick={() => nextPage('after')} className={styleButton}>
               Next Page
+            </button>
+          )}
+          {pageCount !== 0 && posts.data.subreddit[filter][0].before && (
+            <button onClick={() => nextPage('before')} className={styleButton}>
+              Previous Page
             </button>
           )}
         </div>
