@@ -3,7 +3,10 @@ import YoutubePlayer from './YoutubePlayer';
 
 function Article({ topic }) {
   const cardStyle = 'bg-white rounded-lg border overflow-hidden border-gray-300 ';
-  const img = topic.url_overridden_by_dest && topic.url_overridden_by_dest.split('.');
+  let img = [];
+  if (topic.url_overridden_by_dest) {
+    img = topic.url_overridden_by_dest.split('.');
+  }
 
   return (
     <div className={cardStyle + ' max-w-lg m-auto my-2 sm:w-90'}>

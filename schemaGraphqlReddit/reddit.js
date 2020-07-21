@@ -253,7 +253,9 @@ var linkType = new _graphql.GraphQLObjectType({
       description: 'text detail of post',
       type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
       resolve: function resolve(link) {
-        return link.data.url_overridden_by_dest;
+        if (link.data.url_overridden_by_dest) {
+          return link.data.url_overridden_by_dest;
+        } else return '';
       }
     },
 
