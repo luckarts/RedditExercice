@@ -12,6 +12,7 @@ module.exports = {
     full: '100%',
     screen: '100vw'
   },
+
   textIndent: {
     // defaults to {}
     '1': '0.25rem',

@@ -17,7 +17,7 @@ Router.events.on('routeChangeError', () => {
 function App({ Component, pageProps }) {
   const router = useRouter();
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="bg-white min-h-screen">
       <Head>
         <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />

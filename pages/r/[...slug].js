@@ -3,7 +3,7 @@ import { QueryObjectType } from '../../schemaGraphqlReddit/reddit';
 import Article from '../../components/Article';
 function Topic({ topic }) {
   return (
-    <div className="flex flex-col mt-12">
+    <div className="flex flex-col mt-20">
       <Article topic={topic.data.link} />
     </div>
   );
