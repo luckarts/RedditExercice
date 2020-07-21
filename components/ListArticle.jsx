@@ -7,11 +7,11 @@ function ListArticle({ post }) {
     const dateToday = today.getDate();
     let datePost = new Date(date);
     const dateArray = datePost.toUTCString().split(' ');
-    if (datePost.getHours() === dateHours) {
+    if (datePost.getDate() === dateToday && datePost.getHours() === dateHours) {
       return today.getMinutes() - datePost.getMinutes() + ' minutes ago';
     } else if (datePost.getDate() === dateToday) {
       const result = dateHours - datePost.getHours();
-      return result + (result > 2 ? ' hours' : 'hour') + ' ago';
+      return result + (result > 1 ? ' hours' : ' hour') + ' ago';
     } else return dateArray[1] + ' ' + dateArray[2] + ' ' + dateArray[3];
   }
   function truncate(str, no_words) {
