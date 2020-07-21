@@ -1,5 +1,5 @@
 import ParserText from './ParserText';
-import YouTube from 'react-youtube';
+
 function Article({ topic }) {
   const cardStyle = 'bg-white rounded-lg border overflow-hidden border-gray-300 ';
   const img = topic.img && topic.img.split('.');
