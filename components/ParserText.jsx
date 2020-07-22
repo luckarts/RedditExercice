@@ -5,7 +5,7 @@ import ReactHtmlParser from 'react-html-parser';
 function ParserText({ text, className }) {
   const cleanHtml = ReactHtmlParser(text ? text : '');
 
-  return <p className={className}>{parse(`${cleanHtml}`)}</p>;
+  return <div className={className}>{parse(`${cleanHtml}`)}</div>;
 }
 
 export default ParserText;

@@ -1,22 +1,16 @@
-'use strict';
+import { getUser, getSubreddit, getSubredditListings, getComments } from './api/reddit';
 
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-exports.QueryObjectType = undefined;
+import {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLNonNull,
+  GraphQLInt,
+  GraphQLEnumType,
+  GraphQLList,
+  GraphQLFloat
+} from 'graphql';
 
-var _reddit = require('./api/reddit');
-
-var _graphql = require('graphql');
-
-/*
-  Listing
-  Article
-  Comment
-  User
-*/
-
-var itemTypeEnum = new _graphql.GraphQLEnumType({
+let itemTypeEnum = new GraphQLEnumType({
   name: 'ItemType',
   description: 'The type of object',
   values: {
@@ -44,7 +38,7 @@ var itemTypeEnum = new _graphql.GraphQLEnumType({
   }
 });
 
-var timeIntervalType = new _graphql.GraphQLEnumType({
+let timeIntervalType = new GraphQLEnumType({
   name: 'TimeInterval',
   description: 'Time interval by which listings are queried',
   values: {
@@ -69,48 +63,48 @@ var timeIntervalType = new _graphql.GraphQLEnumType({
   }
 });
 
-var userType = new _graphql.GraphQLObjectType({
+let userType = new GraphQLObjectType({
   name: 'RedditUser',
   description: 'Information about a Reddit user',
   fields: {
     fullnameId: {
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      type: new GraphQLNonNull(GraphQLString),
       description: 'The Reddit API fullname of the user',
       resolve: function resolve(user) {
         return user.kind + '_' + user.data.id;
       }
     },
     username: {
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      type: new GraphQLNonNull(GraphQLString),
       description: "The user's unique username.",
       resolve: function resolve(user) {
         return user.data.name;
       }
     },
     created: {
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLFloat),
+      type: new GraphQLNonNull(GraphQLFloat),
       description: 'Creation date of the user, in Unix Time (UTC)',
       resolve: function resolve(user) {
         return user.data.created_utc;
       }
     },
     createdISO: {
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      type: new GraphQLNonNull(GraphQLString),
       description: 'Creation date of the user, in ISO8601',
       resolve: function resolve(user) {
-        var date = new Date(user.data.created_utc * 1000);
+        let date = new Date(user.data.created_utc * 1000);
         return date.toISOString();
       }
     },
     linkKarma: {
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLInt),
+      type: new GraphQLNonNull(GraphQLInt),
       description: 'Karma by links of the user',
       resolve: function resolve(user) {
         return user.data.link_karma;
       }
     },
     commentKarma: {
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLInt),
+      type: new GraphQLNonNull(GraphQLInt),
       description: 'Karma by comments of the user',
       resolve: function resolve(user) {
         return user.data.comment_karma;
@@ -119,28 +113,23 @@ var userType = new _graphql.GraphQLObjectType({
   }
 });
 
-var createListingField = function createListingField(description, listingType) {
-  var _ref = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-  var _ref$hasTimeInterval = _ref.hasTimeInterval;
-  var hasTimeInterval = _ref$hasTimeInterval === undefined ? false : _ref$hasTimeInterval;
-
-  var args = {
+let createListingField = function createListingField(description, listingType, { hasTimeInterval = false } = {}) {
+  let args = {
     after: {
       description: 'FullnameId of an item in the listing to use as the anchor point of the slice.',
-      type: _graphql.GraphQLString
+      type: GraphQLString
     },
     before: {
       description: 'FullnameId of an item in the listing to use as the anchor point of the slice.',
-      type: _graphql.GraphQLString
+      type: GraphQLString
     },
     count: {
       description: 'The number of items already seen in this listing',
-      type: _graphql.GraphQLInt
+      type: GraphQLInt
     },
     limit: {
       description: 'The maximum number of items to return in this slice of the listing.',
-      type: _graphql.GraphQLInt
+      type: GraphQLInt
     }
   };
   if (hasTimeInterval) {
@@ -152,57 +141,55 @@ var createListingField = function createListingField(description, listingType) {
   return {
     description: description,
     args: args,
-    type: new _graphql.GraphQLNonNull(new _graphql.GraphQLList(paginationType)),
+    type: new GraphQLNonNull(new GraphQLList(paginationType)),
     resolve: function resolve(subreddit, args) {
-      var requestOptions = args;
+      let requestOptions = args;
       requestOptions.t = args.timeInterval;
       delete requestOptions.timeInterval;
 
-      return (0, _reddit.getSubredditListings)(subreddit.data.display_name, listingType, requestOptions).then(function (
-        data
-      ) {
+      return getSubredditListings(subreddit.data.display_name, listingType, requestOptions).then((data) => {
         return [data.data];
       });
     }
   };
 };
 
-var commentType = new _graphql.GraphQLObjectType({
+let commentType = new GraphQLObjectType({
   name: 'RedditComment',
   description: 'A comment on a link',
   fields: function fields() {
     return {
       author: {
         description: 'Author of the comment',
-        type: new _graphql.GraphQLNonNull(userType),
+        type: new GraphQLNonNull(userType),
         resolve: function resolve(comment) {
-          return (0, _reddit.getUser)(comment.data.author);
+          return getUser(comment.data.author);
         }
       },
       body_html: {
         description: 'Body of the comment',
-        type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+        type: new GraphQLNonNull(GraphQLString),
         resolve: function resolve(comment) {
           return comment.data.body_html;
         }
       },
       replies: {
         description: 'Replies to the comment',
-        type: new _graphql.GraphQLNonNull(new _graphql.GraphQLList(commentType)),
+        type: new GraphQLNonNull(new GraphQLList(commentType)),
         args: {
           depth: {
-            type: _graphql.GraphQLInt,
+            type: GraphQLInt,
             description: 'Maximum depth of subtrees in the thread'
           },
           limit: {
-            type: _graphql.GraphQLInt,
+            type: GraphQLInt,
             description: 'Maximum number of comments to return'
           }
         },
         resolve: function resolve(comment, args) {
-          var linkId = comment.data.link_id.split('_')[1];
+          let linkId = comment.data.link_id.split('_')[1];
           args.comment = comment.data.id;
-          return (0, _reddit.getComments)(comment.data.subreddit, linkId, args).then(function (data) {
+          return getComments(comment.data.subreddit, linkId, args).then((data) => {
             if (data[1].data.children[0].data.replies.data) {
               return data[1].data.children[0].data.replies.data.children;
             } else return [{}];
@@ -212,28 +199,28 @@ var commentType = new _graphql.GraphQLObjectType({
     };
   }
 });
-var linkType = new _graphql.GraphQLObjectType({
+let linkType = new GraphQLObjectType({
   name: 'RedditLink',
   description: 'A link posted to a subreddit',
   fields: {
     createdISO: {
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      type: new GraphQLNonNull(GraphQLString),
       description: 'Creation date of the subreddit, in ISO8601',
       resolve: function resolve(link) {
-        var date = new Date(link.data.created_utc * 1000);
+        let date = new Date(link.data.created_utc * 1000);
         return date.toISOString();
       }
     },
     title: {
       description: 'Title of the link',
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      type: new GraphQLNonNull(GraphQLString),
       resolve: function resolve(link) {
         return link.data.title;
       }
     },
     selftext_html: {
       description: 'text detail of post',
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      type: new GraphQLNonNull(GraphQLString),
       resolve: function resolve(link) {
         if (link.data.selftext_html) {
           return link.data.selftext_html;
@@ -242,7 +229,7 @@ var linkType = new _graphql.GraphQLObjectType({
     },
     selftext: {
       description: 'text detail of post',
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      type: new GraphQLNonNull(GraphQLString),
       resolve: function resolve(link) {
         if (link.data.selftext_html) {
           return link.data.selftext;
@@ -251,7 +238,7 @@ var linkType = new _graphql.GraphQLObjectType({
     },
     url_overridden_by_dest: {
       description: 'text detail of post',
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      type: new GraphQLNonNull(GraphQLString),
       resolve: function resolve(link) {
         if (link.data.url_overridden_by_dest) {
           return link.data.url_overridden_by_dest;
@@ -260,7 +247,7 @@ var linkType = new _graphql.GraphQLObjectType({
     },
 
     fullnameId: {
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      type: new GraphQLNonNull(GraphQLString),
       description: 'The Reddit API fullname of the link',
       resolve: function resolve(link) {
         return link.kind + '_' + link.data.id;
@@ -268,56 +255,56 @@ var linkType = new _graphql.GraphQLObjectType({
     },
 
     score: {
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLInt),
+      type: new GraphQLNonNull(GraphQLInt),
       description: 'Score of the link',
       resolve: function resolve(link) {
         return link.data.score;
       }
     },
     numComments: {
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLInt),
+      type: new GraphQLNonNull(GraphQLInt),
       description: 'Number of comments',
       resolve: function resolve(link) {
         return link.data.num_comments;
       }
     },
     permalink: {
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      type: new GraphQLNonNull(GraphQLString),
       description: 'URL of the link',
       resolve: function resolve(link) {
         return link.data.permalink;
       }
     },
     url: {
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      type: new GraphQLNonNull(GraphQLString),
       description: 'URL of the link',
       resolve: function resolve(link) {
         return link.data.url;
       }
     },
     author: {
-      type: new _graphql.GraphQLNonNull(userType),
+      type: new GraphQLNonNull(userType),
       description: 'Author of the link',
       resolve: function resolve(link) {
-        return (0, _reddit.getUser)(link.data.author);
+        return getUser(link.data.author);
       }
     },
 
     comments: {
-      type: new _graphql.GraphQLNonNull(new _graphql.GraphQLList(commentType)),
+      type: new GraphQLNonNull(new GraphQLList(commentType)),
       description: 'Comments on the link',
       args: {
         depth: {
-          type: _graphql.GraphQLInt,
+          type: GraphQLInt,
           description: 'Maximum depth of subtrees in the thread'
         },
         limit: {
-          type: _graphql.GraphQLInt,
+          type: GraphQLInt,
           description: 'Maximum number of comments to return'
         }
       },
       resolve: function resolve(link, args) {
-        return (0, _reddit.getComments)(link.data.subreddit, link.data.id, args).then(function (data) {
+        return getComments(link.data.subreddit, link.data.id, args).then((data) => {
           return data[1].data.children;
         });
       }
@@ -325,13 +312,13 @@ var linkType = new _graphql.GraphQLObjectType({
   }
 });
 
-var paginationType = new _graphql.GraphQLObjectType({
+let paginationType = new GraphQLObjectType({
   name: 'RedditSearch',
   description: 'A link posted to a subreddit',
   fields: {
     after: {
       description: 'Title of the link',
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      type: GraphQLNonNull(GraphQLString),
       resolve: function resolve(link) {
         if (link.after) {
           return link.after;
@@ -340,7 +327,7 @@ var paginationType = new _graphql.GraphQLObjectType({
     },
     before: {
       description: 'Title of the link',
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      type: GraphQLNonNull(GraphQLString),
       resolve: function resolve(link) {
         if (link.before) {
           return link.before;
@@ -349,8 +336,7 @@ var paginationType = new _graphql.GraphQLObjectType({
     },
     links: {
       description: 'Author of the comment',
-      type: new _graphql.GraphQLNonNull(new _graphql.GraphQLList(linkType)),
-
+      type: new GraphQLNonNull(new GraphQLList(linkType)),
       resolve: function resolve(link) {
         return link.children;
       }
@@ -358,12 +344,12 @@ var paginationType = new _graphql.GraphQLObjectType({
   }
 });
 
-var subredditType = new _graphql.GraphQLObjectType({
+let subredditType = new GraphQLObjectType({
   name: 'RedditSubreddit',
   description: 'Information about and listings in a subreddit',
   fields: {
     name: {
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      type: new GraphQLNonNull(GraphQLString),
       description: 'Name of the subreddit',
       resolve: function resolve(subreddit) {
         return subreddit.data.display_name;
@@ -371,42 +357,42 @@ var subredditType = new _graphql.GraphQLObjectType({
     },
 
     fullnameId: {
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      type: new GraphQLNonNull(GraphQLString),
       description: 'The Reddit API fullname of the subreddit',
       resolve: function resolve(subreddit) {
         return subreddit.kind + '_' + subreddit.data.id;
       }
     },
     title: {
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      type: new GraphQLNonNull(GraphQLString),
       description: 'Title of the subreddit',
       resolve: function resolve(subreddit) {
         return subreddit.data.title;
       }
     },
     publicDescription: {
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      type: new GraphQLNonNull(GraphQLString),
       description: 'Description of the subreddit',
       resolve: function resolve(subreddit) {
         return subreddit.data.public_description;
       }
     },
     accountsActive: {
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLInt),
+      type: new GraphQLNonNull(GraphQLInt),
       description: 'Accounts active right now on the subreddit',
       resolve: function resolve(subreddit) {
         return subreddit.data.accounts_active;
       }
     },
     subscribers: {
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLInt),
+      type: new GraphQLNonNull(GraphQLInt),
       description: 'Number of subscribers to the subreddit',
       resolve: function resolve(subreddit) {
         return subreddit.data.subscribers;
       }
     },
     created: {
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLFloat),
+      type: new GraphQLNonNull(GraphQLFloat),
       description: 'Creation date of the subreddit, in Unix Time (UTC)',
       resolve: function resolve(subreddit) {
         return subreddit.data.created_utc;
@@ -414,10 +400,10 @@ var subredditType = new _graphql.GraphQLObjectType({
     },
 
     createdISO: {
-      type: new _graphql.GraphQLNonNull(_graphql.GraphQLString),
+      type: new GraphQLNonNull(GraphQLString),
       description: 'Creation date of the subreddit, in ISO8601',
       resolve: function resolve(subreddit) {
-        var date = new Date(subreddit.data.created_utc * 1000);
+        let date = new Date(subreddit.data.created_utc * 1000);
         return date.toISOString();
       }
     },
@@ -433,7 +419,7 @@ var subredditType = new _graphql.GraphQLObjectType({
   }
 });
 
-var redditType = new _graphql.GraphQLObjectType({
+let redditType = new GraphQLObjectType({
   name: 'RedditAPI',
   description: 'The Reddit API',
   fields: {
@@ -442,13 +428,13 @@ var redditType = new _graphql.GraphQLObjectType({
       args: {
         name: {
           description: 'Name of the subreddit',
-          type: new _graphql.GraphQLNonNull(_graphql.GraphQLString)
+          type: new GraphQLNonNull(GraphQLString)
         }
       },
-      resolve: function resolve(root, _ref2) {
-        var name = _ref2.name;
+      resolve: function resolve(root, args) {
+        let name = args.name;
 
-        return (0, _reddit.getSubreddit)(name);
+        return getSubreddit(name);
       }
     },
 
@@ -457,17 +443,17 @@ var redditType = new _graphql.GraphQLObjectType({
       args: {
         name: {
           description: 'name of the subreddit',
-          type: new _graphql.GraphQLNonNull(_graphql.GraphQLString)
+          type: new GraphQLNonNull(GraphQLString)
         },
         id: {
           description: 'name of the subreddit',
-          type: new _graphql.GraphQLNonNull(_graphql.GraphQLString)
+          type: new GraphQLNonNull(GraphQLString)
         }
       },
       resolve: function resolve(root, _args) {
-        var subredditName = _args.name;
-        var linkId = _args.id;
-        return (0, _reddit.getComments)(subredditName, linkId).then(function (data) {
+        let subredditName = _args.name;
+        let linkId = _args.id;
+        return getComments(subredditName, linkId).then((data) => {
           return data[0].data.children[0];
         });
       }
@@ -477,16 +463,16 @@ var redditType = new _graphql.GraphQLObjectType({
       args: {
         username: {
           description: 'Username of the user',
-          type: new _graphql.GraphQLNonNull(_graphql.GraphQLString)
+          type: new GraphQLNonNull(GraphQLString)
         }
       },
-      resolve: function resolve(root, _ref3) {
-        var username = _ref3.username;
+      resolve: function resolve(root, args) {
+        let username = args.username;
 
-        return (0, _reddit.getUser)(username);
+        return getUser(username);
       }
     }
   }
 });
 
-var QueryObjectType = (exports.QueryObjectType = redditType);
+export const QueryObjectType = redditType;

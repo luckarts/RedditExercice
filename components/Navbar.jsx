@@ -20,7 +20,7 @@ const Nav = () => {
           </a>
         </Link>
         <div className=" relative flex w-full">
-          <FormSearch className="w-full text-lg bg-gray-300 text-gray-900  border border-gray-100  h-10 px-6  pr-16 rounded-full  focus:outline-none" />
+          <FormSearch className="w-full text-lg bg-gray-200 text-gray-900  border border-gray-100  h-10 px-6  pr-16 rounded-full  focus:outline-none" />
         </div>
       </div>
     </nav>

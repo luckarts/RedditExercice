@@ -31,7 +31,7 @@ function Search({ posts, defaultFilter }) {
   const styleButton = 'relative bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded';
   if (posts.data && posts.data.subreddit && posts.data.subreddit[filter]) {
     return (
-      <div className="flex flex-col mt-20 mb-8">
+      <div className="flex flex-col mt-20 sm:pt-6 mb-8">
         {posts.data.subreddit[filter][0].links.map((post, index) => post && <ListArticle key={index} post={post} />)}
         <div className="w-2/3 m-auto relative sm:w-90">
           {pageCount !== 0 && posts.data.subreddit[filter][0].before && (
