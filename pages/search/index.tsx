@@ -2,28 +2,38 @@ import { GraphQLSchema, graphql } from 'graphql';
 import React, { useState, useEffect } from 'react';
 import { QueryObjectType } from '../../schemaGraphqlReddit/reddit';
 import ListArticle from '../../components/ListArticle';
-import Navbar from '../../components/Navbar';
 import { useRouter } from 'next/router';
 import Error from 'next/error';
-function Search({ posts, defaultFilter }) {
+import App, { Container, NextAppContext, DefaultAppIProps } from 'next/app';
+import { GetServerSideProps } from 'next';
+import { InterfaceListArticle } from '../../models/ListArticles';
+import { NextContext } from 'next';
+export interface InterfaceListArticleProps {
+  posts: { data: { subreddit: { bestListings?: [InterfaceListArticle] } } };
+  defaultFilter: string;
+}
+
+export default function Search({ posts, defaultFilter }: InterfaceListArticleProps) {
   const router = useRouter();
-  const [filter, setFilter] = useState(defaultFilter);
+  let queryFilter = router.query.filter as string;
+  const [filter, setFilter] = useState<string>(defaultFilter);
   const [pageCount, setPageCount] = useState(0);
 
   useEffect(() => {
-    if (router.query.filter) {
-      setFilter(router.query.filter);
+    if (queryFilter) {
+      setFilter(queryFilter);
     }
-  }, [router, setFilter]);
+  }, [queryFilter, setFilter]);
 
-  function nextPage(pagination) {
+  function nextPage(pagination: string) {
+    let after = posts.data.subreddit[filter][0][pagination] as undefined;
     setPageCount(pageCount + 1);
     router.push({
       pathname: '/search',
       query: {
         name: router.query.name,
         filter: filter,
-        after: posts.data.subreddit[filter][0][pagination]
+        after: posts.data.subreddit.bestListings[0][pagination]
       }
     });
     window.scrollTo(0, 0);
@@ -52,16 +62,13 @@ function Search({ posts, defaultFilter }) {
   }
 }
 
-export async function getServerSideProps(context) {
-  const { query } = context;
-
+export const getServerSideProps: GetServerSideProps<InterfaceListArticleProps> = async ({ query }: NextAppContext) => {
   const defaultFilter = 'bestListings';
   let schema = new GraphQLSchema({
     query: QueryObjectType
   });
 
   let queryGraphQL = `{
-
     subreddit(name:  "${query.name}"){
       ${query.filter ? query.filter : defaultFilter}(limit: 100 ,count: 100 ,after : "${query.after}" ,before : "${
     query.before
@@ -88,5 +95,4 @@ export async function getServerSideProps(context) {
   return {
     props: { posts, defaultFilter }
   };
-}
-export default Search;
+};

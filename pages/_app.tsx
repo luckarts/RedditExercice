@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import NProgress from 'nprogress';
 import Router from 'next/router';
 import Head from 'next/head';
+import { AppProps } from 'next/app';
 Router.events.on('routeChangeStart', () => {
   NProgress.start();
 });
@@ -14,7 +15,7 @@ Router.events.on('routeChangeError', () => {
   NProgress.done();
 });
 
-function App({ Component, pageProps }) {
+export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   return (
     <div className="bg-white min-h-screen">
@@ -41,5 +42,3 @@ function App({ Component, pageProps }) {
     </div>
   );
 }
-
-export default App;

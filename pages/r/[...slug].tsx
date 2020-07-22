@@ -9,7 +9,7 @@ function Topic({ topic }) {
   );
 }
 
-export async function getServerSideProps(context) {
+Topic.getServerSideProps = async (context) => {
   const { slug } = context.params;
 
   let schema = new GraphQLSchema({
@@ -43,5 +43,5 @@ export async function getServerSideProps(context) {
   return {
     props: { topic }
   };
-}
+};
 export default Topic;
