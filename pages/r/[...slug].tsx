@@ -1,22 +1,34 @@
-import { GraphQLSchema, graphql } from 'graphql';
-import { QueryObjectType } from '../../schemaGraphqlReddit/reddit';
-import Article from '../../components/Article';
-function Topic({ topic }) {
+import { GraphQLSchema, graphql } from "graphql";
+import { QueryObjectType } from "../../schemaGraphqlReddit/reddit";
+import Article from "../../components/Article";
+import { InterfaceArticle } from "../../models/Article";
+import { GetServerSideProps } from "next";
+import React from "react";
+
+export interface InterfaceArticleProps {
+  topic: {
+    data: {
+      link: InterfaceArticle;
+    };
+  };
+}
+
+const Topic: React.FC<InterfaceArticleProps> = ({ topic }) => {
   return (
     <div className="flex flex-col mt-20 sm:pt-6">
       <Article topic={topic.data.link} />
     </div>
   );
-}
+};
 
-Topic.getServerSideProps = async (context) => {
-  const { slug } = context.params;
+export const getServerSideProps: GetServerSideProps<InterfaceArticleProps> = async (context) => {
+  const { slug } = context.query;
 
   let schema = new GraphQLSchema({
-    query: QueryObjectType
+    query: QueryObjectType,
   });
 
-  let query = `{ link(name:  "${slug[0]}", id: "${slug[2]}")
+  let query = `{link(name:  "${slug ? slug[0] : ""}", id: "${slug ? slug[2] : ""}")
 	{
       title
       url_overridden_by_dest
@@ -41,7 +53,7 @@ Topic.getServerSideProps = async (context) => {
 
   const topic = JSON.parse(JSON.stringify(res));
   return {
-    props: { topic }
+    props: { topic },
   };
 };
 export default Topic;
