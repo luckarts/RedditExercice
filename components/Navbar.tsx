@@ -1,5 +1,5 @@
-import FormSearch from "./FormSearch";
-import Link from "next/link";
+import FormSearch from './FormSearch'
+import Link from 'next/link'
 const Nav = () => {
   return (
     <nav className="bg-white fixed top-0 w-full z-50 sm:shadow-md border-b border-gray-300 ">
@@ -26,6 +26,6 @@ const Nav = () => {
         </div>
       </div>
     </nav>
-  );
-};
-export default Nav;
+  )
+}
+export default Nav

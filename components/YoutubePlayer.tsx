@@ -1,5 +1,5 @@
 interface YoutubePlayerProps {
-  url: string;
+  url: string
 }
 const YoutubePlayer: React.FC<YoutubePlayerProps> = ({ url }) => {
   return (
@@ -11,7 +11,7 @@ const YoutubePlayer: React.FC<YoutubePlayerProps> = ({ url }) => {
       src={url}
       frameBorder="0"
     ></iframe>
-  );
-};
+  )
+}
 
-export default YoutubePlayer;
+export default YoutubePlayer

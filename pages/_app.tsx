@@ -1,22 +1,22 @@
-import "../styles/index.css";
-import Navbar from "../components/Navbar";
-import { useRouter } from "next/router";
-import NProgress from "nprogress";
-import Router from "next/router";
-import Head from "next/head";
-import { AppProps } from "next/app";
-Router.events.on("routeChangeStart", () => {
-  NProgress.start();
-});
-Router.events.on("routeChangeComplete", () => {
-  NProgress.done();
-});
-Router.events.on("routeChangeError", () => {
-  NProgress.done();
-});
+import '../styles/index.css'
+import Navbar from '../components/Navbar'
+import { useRouter } from 'next/router'
+import NProgress from 'nprogress'
+import Router from 'next/router'
+import Head from 'next/head'
+import { AppProps } from 'next/app'
+Router.events.on('routeChangeStart', () => {
+  NProgress.start()
+})
+Router.events.on('routeChangeComplete', () => {
+  NProgress.done()
+})
+Router.events.on('routeChangeError', () => {
+  NProgress.done()
+})
 
 export default function App({ Component, pageProps }: AppProps) {
-  const router = useRouter();
+  const router = useRouter()
   return (
     <div className="bg-white min-h-screen">
       <Head>
@@ -36,9 +36,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="apple-touch-icon" href="/apple-icon.png"></link>
         <meta name="theme-color" content="#317EFB" />
       </Head>
-      {router.pathname !== "/" && <Navbar />}
+      {router.pathname !== '/' && <Navbar />}
 
       <Component {...pageProps} />
     </div>
-  );
+  )
 }

@@ -1,35 +1,35 @@
-import Link from "next/link";
-import { InterfaceListArticle } from "../models/ListArticles";
+import Link from 'next/link'
+import { InterfaceListArticle } from '../models/ListArticles'
 
 export interface InterfaceArticlesProps {
-  post: InterfaceListArticle;
+  post: InterfaceListArticle
 }
 const ListArticle: React.FC<InterfaceArticlesProps> = ({ post }) => {
   function DateISOString(date: string): string {
-    let today = new Date();
-    let dateHours = today.getHours();
-    let dateToday = today.getDate();
-    let datePost = new Date(date);
-    let dateArray = datePost.toUTCString().split(" ");
+    let today = new Date()
+    let dateHours = today.getHours()
+    let dateToday = today.getDate()
+    let datePost = new Date(date)
+    let dateArray = datePost.toUTCString().split(' ')
     if (datePost.getDate() === dateToday && datePost.getHours() === dateHours) {
-      return today.getMinutes() - datePost.getMinutes() + " minutes ago";
+      return today.getMinutes() - datePost.getMinutes() + ' minutes ago'
     } else if (datePost.getDate() === dateToday) {
-      let result = dateHours - datePost.getHours();
-      return result + (result > 1 ? " hours" : " hour") + " ago";
-    } else return dateArray[1] + " " + dateArray[2] + " " + dateArray[3];
+      let result = dateHours - datePost.getHours()
+      return result + (result > 1 ? ' hours' : ' hour') + ' ago'
+    } else return dateArray[1] + ' ' + dateArray[2] + ' ' + dateArray[3]
   }
 
   function truncate(str: string, no_words: number): string {
-    return str.split(" ").splice(0, no_words).join(" ");
+    return str.split(' ').splice(0, no_words).join(' ')
   }
   return (
     <div className="w-2/3 m-auto  px-5 my-3 py-3 bg-white overflow-hidden rounded-lg border border-gray-300 sm:w-90 ">
-      <Link href={post.permalink ? post.permalink : "#"} prefetch shallow>
+      <Link href={post.permalink ? post.permalink : '#'} prefetch shallow>
         <a className="cursor-pointer ">
           <div className="mt-2 mb-5">
             <h2 className="text-1xl text-gray-700 font-bold ">{post.title}</h2>
             <p className="mt-2 text-gray-600">
-              {post.selftext && truncate(post.selftext, 10) + "..."}
+              {post.selftext && truncate(post.selftext, 10) + '...'}
             </p>
           </div>
           <div>
@@ -59,7 +59,7 @@ const ListArticle: React.FC<InterfaceArticlesProps> = ({ post }) => {
                     <span className="ml-2 ">{post.score}</span>
                   </div>
                 ) : (
-                  ""
+                  ''
                 )}
                 {post.numComments !== 0 && (
                   <span className="float-right">
@@ -72,7 +72,7 @@ const ListArticle: React.FC<InterfaceArticlesProps> = ({ post }) => {
         </a>
       </Link>
     </div>
-  );
-};
+  )
+}
 
-export default ListArticle;
+export default ListArticle
